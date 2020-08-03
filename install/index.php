@@ -1,85 +1,90 @@
-<?
+<?php
+
+use Bitrix\Main\Localization\Loc;
+use Bitrix\Main\ModuleManager;
 
 IncludeModuleLangFile(__FILE__);
-use \Bitrix\Main\ModuleManager;
 
-Class Brainkit_D7 extends CModule
+if (class_exists('boilerplate_module')) {
+    return;
+}
+
+class boilerplate_module extends CModule
 {
+    public $MODULE_ID = 'boilerplate.module';
+    public $MODULE_VERSION;
+    public $MODULE_VERSION_DATE;
+    public $MODULE_NAME;
+    public $MODULE_DESCRIPTION;
 
-    var $MODULE_ID = "brainkit.d7";
-    var $MODULE_VERSION;
-    var $MODULE_VERSION_DATE;
-    var $MODULE_NAME;
-    var $MODULE_DESCRIPTION;
-    var $errors;
-
-    function __construct()
+    public function __construct()
     {
-        //$arModuleVersion = array();
-        $this->MODULE_VERSION = "1.0.0";
-        $this->MODULE_VERSION_DATE = "20.03.2016";
-        $this->MODULE_NAME = "Пример модуля D7";
-        $this->MODULE_DESCRIPTION = "Тестовый модуль для разработчиков, можно использовать как основу для разработки новых модулей для 1С:Битрикс";
+        $arModuleVersion = [];
+        include __DIR__ . '/version.php';
+        $this->MODULE_VERSION = $arModuleVersion['VERSION'];
+        $this->MODULE_VERSION_DATE = $arModuleVersion['VERSION_DATE'];
+        $this->MODULE_NAME = Loc::getMessage('BOILERPLATE_MODULE_NAME');
+        $this->MODULE_DESCRIPTION = Loc::getMessage('BOILERPLATE_MODULE_DESC');
+        $this->PARTNER_NAME = '';
+    }
+
+    /**
+     * Get application folder.
+     * @return string /document/local (when exists) or /document/bitrix
+     */
+    public static function getRoot()
+    {
+        $local = $_SERVER['DOCUMENT_ROOT'] . '/local';
+        if (1 === preg_match('#local[\\\/]modules#', __DIR__) && is_dir($local)) {
+            return $local;
+        }
+
+        return $_SERVER['DOCUMENT_ROOT'] . BX_ROOT;
+    }
+
+    private static function deleteComponent($componentName)
+    {
+        DeleteDirFilesEx($_SERVER['DOCUMENT_ROOT'] . BX_ROOT . '/components/opensource/' . $componentName);
+        DeleteDirFilesEx($_SERVER['DOCUMENT_ROOT'] . '/local/components/opensource/' . $componentName);
     }
 
     function DoInstall()
     {
-        $this->InstallDB();
-        $this->InstallEvents();
-        $this->InstallFiles();
-        \Bitrix\Main\ModuleManager::RegisterModule("brainkit.d7");
-        return true;
+        global $DB;
+
+        /**
+         * Install Database
+         */
+        // $DB->RunSQLBatch(__DIR__ . '/install/db/install.sql');
+
+        /**
+         * Install Events
+         */
+
+        /**
+         * Install Files
+         */
+        CopyDirFiles(__DIR__ . '/components', static::getRoot() . '/components', true, true);
+
+        ModuleManager::RegisterModule($this->MODULE_ID);
     }
 
     function DoUninstall()
     {
-        $this->UnInstallDB();
-        $this->UnInstallEvents();
-        $this->UnInstallFiles();
-        \Bitrix\Main\ModuleManager::UnRegisterModule("brainkit.d7");
-        return true;
-    }
+        /**
+         * Uninstall Database
+         */
+        // $DB->RunSQLBatch(__DIR__ . '/install/db/uninstall.sql');
 
-    function InstallDB()
-    {
-        global $DB;
-        $this->errors = false;
-        $this->errors = $DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT'] . "/bitrix/modules/brainkit.d7/install/db/install.sql");
-        if (!$this->errors) {
+        /**
+         * Uninstall Events
+         */
 
-            return true;
-        } else
-            return $this->errors;
-    }
+        /**
+         * Uninstall Files
+         */
+        static::deleteComponent('boilerplate.component');
 
-    function UnInstallDB()
-    {
-        global $DB;
-        $this->errors = false;
-        $this->errors = $DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT'] . "/local/modules/Brainkit.D7/install/db/uninstall.sql");
-        if (!$this->errors) {
-            return true;
-        } else
-            return $this->errors;
-    }
-
-    function InstallEvents()
-    {
-        return true;
-    }
-
-    function UnInstallEvents()
-    {
-        return true;
-    }
-
-    function InstallFiles()
-    {
-        return true;
-    }
-
-    function UnInstallFiles()
-    {
-        return true;
+        UnRegisterModule($this->MODULE_ID);
     }
 }

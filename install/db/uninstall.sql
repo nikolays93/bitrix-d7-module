@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS `brainkit_test`;
+DROP TABLE IF EXISTS `boilerplate_module`;

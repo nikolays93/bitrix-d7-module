@@ -1,14 +1,17 @@
-<?php
-defined('B_PROLOG_INCLUDED') and (B_PROLOG_INCLUDED === true) or die();
+<?php if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
+
 use Bitrix\Main\Localization\Loc;
+
 Loc::loadMessages(__FILE__);
+
 $aMenu = array(
     array(
         'parent_menu' => 'global_menu_content',
         'sort' => 400,
-        'text' => "Тестовый модуль",
+        'text' => "Пример модуля",
         'title' => "",
-        'url' => 'perfmon_table.php?lang=ru&table_name=brainkit_test'
+        'url' => 'perfmon_table.php?lang=ru&table_name=boilerplate_module'
     ),
 );
+
 return $aMenu;

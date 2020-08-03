@@ -1,13 +1,13 @@
 <?php
-namespace Brainkit\D7;
+namespace Boilerplate;
 
 use Bitrix\Main\Entity;
 use Bitrix\Main\Localization\Loc;
- 
+
 
 /**
  * Class DataTable
- * 
+ *
  * Fields:
  * <ul>
  * <li> ID int mandatory
@@ -19,7 +19,7 @@ use Bitrix\Main\Localization\Loc;
  *
  * @package \Brainkit\Data
  **/
- 
+
 class DataTable extends Entity\DataManager
 {
 	/**
@@ -29,7 +29,7 @@ class DataTable extends Entity\DataManager
 	 */
 	public static function getTableName()
 	{
-		return 'brainkit_test';
+		return 'boilerplate_module';
 	}
 
 	/**
