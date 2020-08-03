@@ -11,16 +11,13 @@ if (class_exists('boilerplate_module')) {
 
 class boilerplate_module extends CModule
 {
-    public $MODULE_ID = 'boilerplate.module';
-    public $MODULE_VERSION;
-    public $MODULE_VERSION_DATE;
-    public $MODULE_NAME;
-    public $MODULE_DESCRIPTION;
+    const MODULE_ID = 'boilerplate.module';
 
     public function __construct()
     {
         $arModuleVersion = [];
         include __DIR__ . '/version.php';
+        $this->MODULE_ID = self::MODULE_ID;
         $this->MODULE_VERSION = $arModuleVersion['VERSION'];
         $this->MODULE_VERSION_DATE = $arModuleVersion['VERSION_DATE'];
         $this->MODULE_NAME = Loc::getMessage('BOILERPLATE_MODULE_NAME');
