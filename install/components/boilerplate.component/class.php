@@ -3,7 +3,7 @@
 use \Bitrix\Main\Localization\Loc;
 use \Bitrix\Main\Loader;
 
-class CustomBitrixComponent extends CBitrixComponent
+class BoilerplateComponent extends CBitrixComponent
 {
     public $errors = array();
 
@@ -14,9 +14,9 @@ class CustomBitrixComponent extends CBitrixComponent
     public function __construct($component = null)
     {
         parent::__construct($component);
-
-        Loader::includeModule('sale');
-        Loader::includeModule('catalog');
+        // Loader::includeModule('iblock');
+        // Loader::includeModule('sale');
+        // Loader::includeModule('catalog');
         Loader::includeModule(boilerplate_module::MODULE_ID);
     }
 
