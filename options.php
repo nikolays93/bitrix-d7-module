@@ -1,11 +1,12 @@
 <?php
 
 $siteId = 's1';
+$moduleId = 'boilerplate.module';
 
 /**
  * Show settings in admin menu page
  * How to get options:
- *     - CControllerClient::GetInstalledOptions(boilerplate_module::MODULE_ID)
+ *     - CControllerClient::GetInstalledOptions($moduleId)
  *
  * [
  *     Field ID,
@@ -51,12 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && strlen($_REQUEST['save']) > 0 && che
 {
     foreach ($aTabs as $aTab)
     {
-        __AdmSettingsSaveOptions(boilerplate_module::MODULE_ID, $aTab['OPTIONS']);
+        __AdmSettingsSaveOptions($moduleId, $aTab['OPTIONS']);
     }
 
     LocalRedirect($APPLICATION->GetCurPage() . '?lang=' . LANGUAGE_ID .
         '&mid_menu=1' .
-        '&mid=' . urlencode(boilerplate_module::MODULE_ID) .
+        '&mid=' . urlencode($moduleId) .
         '&tabControl_active_tab=' . urlencode($_REQUEST['tabControl_active_tab']) .
         '&sid=' . urlencode($siteId));
 }
@@ -70,7 +71,7 @@ $tabControl->Begin();
 foreach ($aTabs as $aTab)
 {
     $tabControl->BeginNextTab();
-    __AdmSettingsDrawList(boilerplate_module::MODULE_ID, $aTab['OPTIONS']);
+    __AdmSettingsDrawList($moduleId, $aTab['OPTIONS']);
 }
 
 echo bitrix_sessid_post();

@@ -15,7 +15,7 @@ class BoilerplateAjaxController extends Controller
 		// Loader::includeModule('iblock');
 		// Loader::includeModule('sale');
 		// Loader::includeModule('catalog');
-		Loader::includeModule(boilerplate_module::MODULE_ID);
+		Loader::includeModule('boilerplate.module');
 	}
 
 	/**

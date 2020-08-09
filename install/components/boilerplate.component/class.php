@@ -17,7 +17,7 @@ class BoilerplateComponent extends CBitrixComponent
         // Loader::includeModule('iblock');
         // Loader::includeModule('sale');
         // Loader::includeModule('catalog');
-        Loader::includeModule(boilerplate_module::MODULE_ID);
+        Loader::includeModule('boilerplate.module');
     }
 
     public function onIncludeComponentLang()

@@ -11,18 +11,18 @@ if (class_exists('boilerplate_module')) {
 
 class boilerplate_module extends CModule
 {
-    const MODULE_ID = 'boilerplate.module';
 
     public function __construct()
     {
         $arModuleVersion = [];
         include __DIR__ . '/version.php';
-        $this->MODULE_ID = self::MODULE_ID;
+        $this->MODULE_ID = 'boilerplate.module';
         $this->MODULE_VERSION = $arModuleVersion['VERSION'];
         $this->MODULE_VERSION_DATE = $arModuleVersion['VERSION_DATE'];
         $this->MODULE_NAME = Loc::getMessage('BOILERPLATE_MODULE_NAME');
         $this->MODULE_DESCRIPTION = Loc::getMessage('BOILERPLATE_MODULE_DESC');
         $this->PARTNER_NAME = '';
+        $this->PARTNER_URI = '';
     }
 
     /**
