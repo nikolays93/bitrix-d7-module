@@ -1,7 +1,10 @@
 <?php if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
+use Bitrix\Main\Engine\Controller;
+use Bitrix\Main\LoaderException;
 use \Bitrix\Main\Localization\Loc;
 use \Bitrix\Main\Loader;
+use Bitrix\Main\Request;
 
 class BoilerplateAjaxController extends Controller
 {
@@ -23,11 +26,11 @@ class BoilerplateAjaxController extends Controller
 	 */
 	public function configureActions()
 	{
-		return array(
-			'Test' => array(
-				'prefilters' => array()
-			),
-		);
+	    return [
+            'Test' => [
+                'prefilters' => []
+            ]
+        ];
 	}
 
 	/**

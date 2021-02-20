@@ -9,4 +9,3 @@
 /** @var string $templateFile */
 /** @var string $templateFolder */
 /** @var string $componentPath */
-/** @var customOrderComponent $component */
