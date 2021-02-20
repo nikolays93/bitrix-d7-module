@@ -17,12 +17,19 @@ class boilerplate_module extends CModule
         $arModuleVersion = [];
         include __DIR__ . '/version.php';
         $this->MODULE_ID = 'boilerplate.module';
-        $this->MODULE_VERSION = $arModuleVersion['VERSION'];
-        $this->MODULE_VERSION_DATE = $arModuleVersion['VERSION_DATE'];
+        $this->MODULE_VERSION = $arModuleVersion['VERSION'] ?? '';
+        $this->MODULE_VERSION_DATE = $arModuleVersion['VERSION_DATE'] ?? '';
         $this->MODULE_NAME = Loc::getMessage('BOILERPLATE_MODULE_NAME');
         $this->MODULE_DESCRIPTION = Loc::getMessage('BOILERPLATE_MODULE_DESC');
         $this->PARTNER_NAME = '';
         $this->PARTNER_URI = '';
+    }
+
+    public static function getComponentNames()
+    {
+        return [
+            'boilerplate.component',
+        ];
     }
 
     /**
@@ -39,11 +46,6 @@ class boilerplate_module extends CModule
         return $_SERVER['DOCUMENT_ROOT'] . BX_ROOT;
     }
 
-    private static function deleteComponent($componentName)
-    {
-        DeleteDirFilesEx($_SERVER['DOCUMENT_ROOT'] . BX_ROOT . '/components/opensource/' . $componentName);
-        DeleteDirFilesEx($_SERVER['DOCUMENT_ROOT'] . '/local/components/opensource/' . $componentName);
-    }
 
     function DoInstall()
     {
@@ -58,7 +60,7 @@ class boilerplate_module extends CModule
         /**
          * Install Database
          */
-        // $DB->RunSQLBatch(__DIR__ . '/install/db/install.sql');
+        $DB->RunSQLBatch(__DIR__ . '/install/db/install.sql');
 
         /**
          * Install Events
@@ -72,12 +74,23 @@ class boilerplate_module extends CModule
         ModuleManager::RegisterModule($this->MODULE_ID);
     }
 
+    /**
+     * @param string $componentName component folder name
+     */
+    public function deleteComponent($componentName, $vendor = '')
+    {
+        DeleteDirFilesEx($_SERVER['DOCUMENT_ROOT'] . BX_ROOT . '/components/' . $vendor . $componentName);
+        DeleteDirFilesEx($_SERVER['DOCUMENT_ROOT'] . '/local/components/' . $vendor . $componentName);
+    }
+
     function DoUninstall()
     {
+        global $DB;
+
         /**
          * Uninstall Database
          */
-        // $DB->RunSQLBatch(__DIR__ . '/install/db/uninstall.sql');
+        $DB->RunSQLBatch(__DIR__ . '/install/db/uninstall.sql');
 
         /**
          * Uninstall Events
@@ -86,7 +99,7 @@ class boilerplate_module extends CModule
         /**
          * Uninstall Files
          */
-        static::deleteComponent('boilerplate.component');
+        array_map([$this, 'deleteComponent'], static::getComponentNames());
 
         UnRegisterModule($this->MODULE_ID);
     }
