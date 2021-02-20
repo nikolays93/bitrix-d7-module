@@ -49,7 +49,7 @@ class boilerplate_module extends CModule
 
     function DoInstall()
     {
-        global $DB;
+        global $APPLICATION, $DB;
 
         if (!CheckVersion(ModuleManager::getVersion("main"), "14.00.00")) {
             $APPLICATION->ThrowException(
