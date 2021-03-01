@@ -5,8 +5,6 @@ use \Bitrix\Main\Loader;
 
 class BoilerplateComponent extends CBitrixComponent
 {
-    public $errors = array();
-
     /**
      * @param CBitrixComponent|null $component
      * @throws Bitrix\Main\LoaderException
@@ -17,7 +15,8 @@ class BoilerplateComponent extends CBitrixComponent
         // Loader::includeModule('iblock');
         // Loader::includeModule('sale');
         // Loader::includeModule('catalog');
-        Loader::includeModule('boilerplate.module');
+        // Loader::includeModule('boilerplate.module');
+        $this->arResult['ERRORS'] = [];
     }
 
     public function onIncludeComponentLang()
@@ -35,7 +34,7 @@ class BoilerplateComponent extends CBitrixComponent
         try {
 
         } catch (Exception $exception) {
-            array_push($this->errors, new Error($exception->getMessage()));
+            array_push($this->arResult['ERRORS'], new Error($exception->getMessage()));
         }
 
         $this->includeComponentTemplate();
